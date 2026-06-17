@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #cbd6e6; border-radius: 8px; border: 3px solid #eef3f9; }
+  ::-webkit-scrollbar-thumb:hover { background: #aebfd6; }
+</style>
+</helmet>
+
+<div style="display:flex; min-height:100vh; background:#eef3f9; font-family:'Be Vietnam Pro',sans-serif; color:#16263d;">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside style="width:262px; flex:0 0 262px; background:linear-gradient(180deg,#0c2e57 0%,#0a2545 100%); color:#fff; padding:24px 16px 18px; display:flex; flex-direction:column; gap:5px; position:sticky; top:0; height:100vh;">
+    <div style="display:flex; align-items:center; gap:12px; padding:2px 8px 20px;">
+      <div style="width:44px; height:44px; flex:0 0 44px; border-radius:13px; display:flex; align-items:center; justify-content:center; background:linear-gradient(150deg,#3d7bef,#2a5fd0); box-shadow:0 6px 16px rgba(45,111,227,.45);">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3 4 7v6c0 4.5 3 7.5 7 8.5 4-1 7-4 7-8.5V7z"></path><path d="M9.5 12h5M12 9.5v5"></path></svg>
+      </div>
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:16px; font-weight:800; line-height:1.05; letter-spacing:-.01em; white-space:nowrap;">KSK Đà Nẵng</div>
+        <div style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#8fb0e0; margin-top:3px; white-space:nowrap;">Sở Y tế · Điều hành</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#5d7ba8; padding:8px 12px 6px;">Điều hành</div>
+
+    <button onClick="{{ goOverview }}" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; border:none; border-radius:11px; font:600 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:{{ navOverviewFg }}; background:{{ navOverviewBg }}; transition:background .15s;">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>
+      Tổng quan
+    </button>
+    <button onClick="{{ goWard }}" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; border:none; border-radius:11px; font:600 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:{{ navWardFg }}; background:{{ navWardBg }};">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.4 1.8a1 1 0 0 1-1.3-1V5.7a1 1 0 0 1 .7-1L9 3m0 17 6-2m-6 2V3m6 15 5.4 1.8a1 1 0 0 0 1.3-1V4.5a1 1 0 0 0-.7-1L15 1.8m0 16.2V1.8m-6 1.2 6-1.2"></path></svg>
+      Theo xã/phường
+    </button>
+    <button onClick="{{ goUnchecked }}" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; border:none; border-radius:11px; font:600 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:{{ navUncheckedFg }}; background:{{ navUncheckedBg }};">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="m17 8 5 5m0-5-5 5"></path></svg>
+      Người chưa khám
+    </button>
+    <button onClick="{{ goBHYT }}" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; border:none; border-radius:11px; font:600 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:{{ navBHYTFg }}; background:{{ navBHYTBg }};">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"></rect><path d="M2 10h20M6 15h4"></path></svg>
+      Đối chiếu BHYT
+    </button>
+
+    <div style="font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#5d7ba8; padding:14px 12px 6px;">Dữ liệu</div>
+
+    <button onClick="{{ goImport }}" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; border:none; border-radius:11px; font:600 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:{{ navImportFg }}; background:{{ navImportBg }};">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M12 3v13m-5-5 5 5 5-5"></path></svg>
+      Nhập dữ liệu Excel
+    </button>
+    <button onClick="{{ goReport }}" style="display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; border:none; border-radius:11px; font:600 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:{{ navReportFg }}; background:{{ navReportBg }};">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M12 18v-6m-3 3 3 3 3-3"></path></svg>
+      Báo cáo & Xuất
+    </button>
+
+    <div style="flex:1;"></div>
+
+    <button onClick="{{ toggleAi }}" style="display:flex; align-items:center; gap:11px; width:100%; text-align:left; padding:13px; border:1px solid rgba(255,255,255,.16); border-radius:13px; font:700 13.5px 'Be Vietnam Pro',sans-serif; cursor:pointer; color:#fff; background:rgba(255,255,255,.07);">
+      <span style="width:30px; height:30px; flex:0 0 30px; border-radius:9px; background:linear-gradient(150deg,#3d7bef,#2a5fd0); display:flex; align-items:center; justify-content:center;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M5 12H2m20 0h-3M6.3 6.3 4 4m16 0-2.3 2.3M6.3 17.7 4 20m16 0-2.3-2.3"></path><circle cx="12" cy="12" r="3.5"></circle></svg>
+      </span>
+      Trợ lý AI
+      <span style="margin-left:auto; font-size:11px; color:#8fb0e0;">hỏi đáp</span>
+    </button>
+
+    <div style="display:flex; align-items:center; gap:11px; padding:14px 6px 2px; border-top:1px solid rgba(255,255,255,.1); margin-top:10px;">
+      <div style="width:34px; height:34px; border-radius:50%; background:linear-gradient(150deg,#3d7bef,#2a5fd0); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:#fff;">SY</div>
+      <div style="line-height:1.2;">
+        <div style="font-size:13px; font-weight:700;">Phòng KH–TH</div>
+        <div style="font-size:11px; color:#8fb0e0;">Quyền: Sở Y tế</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main style="flex:1; min-width:0; padding:28px 34px 64px; display:flex; flex-direction:column; gap:22px;">
+
+    <!-- ========== PAGE 1: TỔNG QUAN ========== -->
+    <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="01 Tổng quan" style="display:flex; flex-direction:column; gap:22px;">
+      <header style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#2d6fe3;">Khám sức khỏe toàn dân</div>
+          <h1 style="font-size:30px; font-weight:800; margin:5px 0 0; line-height:1.1; letter-spacing:-.02em; color:#0e2a4a;">Tổng quan toàn thành phố</h1>
+          <p style="margin:8px 0 0; font-size:13.5px; color:#6b7689;">93 xã/phường · cập nhật 17/06/2026 lúc 08:30</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="display:inline-flex; align-items:center; gap:8px; padding:9px 14px; background:#fff; border:1px solid #e2e9f2; border-radius:11px; font-size:13px; font-weight:600; box-shadow:0 1px 2px rgba(16,40,80,.05);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2.5"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+            01/06 – 17/06/2026
+          </div>
+          <div style="display:inline-flex; background:#fff; border:1px solid #e2e9f2; border-radius:11px; overflow:hidden; box-shadow:0 1px 2px rgba(16,40,80,.05);">
+            <button onClick="{{ setA }}" style="padding:9px 15px; border:none; font:700 13px 'Be Vietnam Pro',sans-serif; cursor:pointer; background:{{ segABg }}; color:{{ segAFg }};">Biểu đồ</button>
+            <button onClick="{{ setB }}" style="padding:9px 15px; border:none; border-left:1px solid #e2e9f2; font:700 13px 'Be Vietnam Pro',sans-serif; cursor:pointer; background:{{ segBBg }}; color:{{ segBFg }};">Bản đồ</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- KPI strip -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(162px,1fr)); gap:14px;">
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:16px 17px; display:flex; flex-direction:column; gap:11px; min-width:0;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#eef4fd;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.9"></path><path d="M16 3.1a4 4 0 0 1 0 7.8"></path></svg></span>
+            <span style="font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:#eef4fd; color:#2d6fe3;">93 P/X</span>
+          </div>
+          <div><div style="font-size:23px; font-weight:800; letter-spacing:-.02em; color:#0e2a4a;">1.234.567</div><div style="font-size:11.5px; color:#6b7689; margin-top:2px;">Tổng danh sách dân cư</div></div>
+        </div>
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:16px 17px; display:flex; flex-direction:column; gap:11px; min-width:0;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#e6f4ec;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1f9d6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg></span>
+            <span style="font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:#e6f4ec; color:#1f9d6b;">+9,4k</span>
+          </div>
+          <div><div style="font-size:23px; font-weight:800; letter-spacing:-.02em; color:#0e2a4a;">842.310</div><div style="font-size:11.5px; color:#6b7689; margin-top:2px;">Đã khám</div></div>
+        </div>
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:16px 17px; display:flex; flex-direction:column; gap:11px; min-width:0;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#fff5e6;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d98a1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4m0 4h.01"></path></svg></span>
+            <span style="font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:#fff2da; color:#b5781a;">31,8%</span>
+          </div>
+          <div><div style="font-size:23px; font-weight:800; letter-spacing:-.02em; color:#0e2a4a;">392.257</div><div style="font-size:11.5px; color:#6b7689; margin-top:2px;">Chưa khám</div></div>
+        </div>
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:16px 17px; display:flex; flex-direction:column; gap:11px; min-width:0;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#eef4fd;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"></rect><path d="M2 10h20M6 15h4"></path></svg></span>
+            <span style="font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:#eef4fd; color:#2d6fe3;">89,8%</span>
+          </div>
+          <div><div style="font-size:23px; font-weight:800; letter-spacing:-.02em; color:#0e2a4a;">1.108.900</div><div style="font-size:11.5px; color:#6b7689; margin-top:2px;">Có BHYT</div></div>
+        </div>
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:16px 17px; display:flex; flex-direction:column; gap:11px; min-width:0;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#fdeceb;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9453f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.6 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v4m0 4h.01"></path></svg></span>
+            <span style="font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:#fdeceb; color:#c9453f;">cần xử lý</span>
+          </div>
+          <div><div style="font-size:23px; font-weight:800; letter-spacing:-.02em; color:#0e2a4a;">4.521</div><div style="font-size:11.5px; color:#6b7689; margin-top:2px;">Lỗi dữ liệu</div></div>
+        </div>
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:16px 17px; display:flex; flex-direction:column; gap:11px; min-width:0;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:#fdeceb;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9453f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M16 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2"></path></svg></span>
+            <span style="font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; background:#fdeceb; color:#c9453f;">đối chiếu</span>
+          </div>
+          <div><div style="font-size:23px; font-weight:800; letter-spacing:-.02em; color:#0e2a4a;">1.203</div><div style="font-size:11.5px; color:#6b7689; margin-top:2px;">Trùng CCCD</div></div>
+        </div>
+      </div>
+
+      <!-- LAYOUT A -->
+      <sc-if value="{{ layoutA }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="display:grid; grid-template-columns:320px 1fr; gap:20px;">
+          <!-- donut -->
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+            <div style="font-size:15px; font-weight:700; color:#0e2a4a;">Tỷ lệ hoàn thành</div>
+            <div style="display:flex; align-items:center; gap:18px; margin-top:18px;">
+              <div style="width:132px; height:132px; flex:0 0 132px; border-radius:50%; background:conic-gradient(#2d6fe3 0 68.2%, #e9eef6 68.2% 100%); position:relative;">
+                <div style="position:absolute; inset:17px; background:#fff; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px #eef2f8;">
+                  <span style="font-size:30px; font-weight:800; line-height:1; color:#0e2a4a;">68%</span>
+                  <span style="font-size:10.5px; color:#6b7689; margin-top:3px;">đã khám</span>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:12px; font-size:12.5px;">
+                <div style="display:flex; align-items:center; gap:8px;"><span style="width:11px; height:11px; background:#2d6fe3; border-radius:3px;"></span><div><div style="font-weight:700; color:#0e2a4a;">842.310</div><div style="color:#6b7689; font-size:11px;">Đã khám</div></div></div>
+                <div style="display:flex; align-items:center; gap:8px;"><span style="width:11px; height:11px; background:#e9eef6; border:1px solid #d4ddea; border-radius:3px;"></span><div><div style="font-weight:700; color:#0e2a4a;">392.257</div><div style="color:#6b7689; font-size:11px;">Chưa khám</div></div></div>
+                <div style="font-size:11.5px; color:#2d6fe3; font-weight:600; margin-top:2px;">Mục tiêu 90% trước 30/06</div>
+              </div>
+            </div>
+          </div>
+          <!-- bars by day -->
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline;">
+              <div style="font-size:15px; font-weight:700; color:#0e2a4a;">Số lượt khám theo ngày</div>
+              <div style="font-size:12px; color:#9aa6b8;">7 ngày gần nhất</div>
+            </div>
+            <div style="display:flex; align-items:flex-end; gap:16px; height:158px; margin-top:18px;">
+              <sc-for list="{{ byDay }}" as="bar" hint-placeholder-count="7">
+                <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end;">
+                  <span style="font-size:10.5px; color:#6b7689; font-weight:700;">{{ bar.v }}</span>
+                  <div style="width:100%; max-width:38px; height:{{ bar.h }}; background:linear-gradient(180deg,#4d86f0,#2a5fd0); border-radius:8px 8px 4px 4px;"></div>
+                  <span style="font-size:11px; color:#9aa6b8;">{{ bar.label }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <!-- by district -->
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+            <div style="font-size:15px; font-weight:700; color:#0e2a4a; margin-bottom:16px;">Tỷ lệ hoàn thành theo quận/huyện</div>
+            <div style="display:flex; flex-direction:column; gap:13px;">
+              <sc-for list="{{ byDistrict }}" as="d" hint-placeholder-count="8">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <span style="width:112px; flex:0 0 112px; font-size:12.5px; font-weight:600; color:#16263d;">{{ d.name }}</span>
+                  <div style="flex:1; height:9px; background:#eef2f8; border-radius:6px; overflow:hidden;">
+                    <div style="height:100%; width:{{ d.rate }}; background:{{ d.barColor }}; border-radius:6px;"></div>
+                  </div>
+                  <span style="width:42px; text-align:right; font-weight:700; font-size:12.5px; color:#0e2a4a;">{{ d.rate }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <!-- AI alerts -->
+          <div style="background:linear-gradient(160deg,#0f315c,#0b2545); border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 14px 30px rgba(11,37,69,.18); padding:22px; color:#fff;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+              <span style="width:32px; height:32px; border-radius:9px; background:rgba(255,255,255,.12); display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9cc0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M5 12H2m20 0h-3M6.3 6.3 4 4m16 0-2.3 2.3M6.3 17.7 4 20m16 0-2.3-2.3"></path><circle cx="12" cy="12" r="3.5"></circle></svg></span>
+              <div>
+                <div style="font-size:15px; font-weight:700;">AI kiểm tra & cảnh báo</div>
+                <div style="font-size:11px; color:#8fb0e0;">Tự phát hiện lỗi · dự báo tiến độ</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{ aiAlerts }}" as="a" hint-placeholder-count="4">
+                <div style="display:flex; gap:11px; padding:12px 13px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.09); border-radius:12px;">
+                  <span style="width:9px; height:9px; flex:0 0 9px; margin-top:5px; border-radius:50%; background:{{ a.color }}; box-shadow:0 0 0 3px {{ a.glow }};"></span>
+                  <div>
+                    <div style="font-size:13px; font-weight:700;">{{ a.type }}</div>
+                    <div style="font-size:12px; color:#bcd0ec; line-height:1.4; margin-top:2px;">{{ a.text }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- LAYOUT B (map-centric) -->
+      <sc-if value="{{ layoutB }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div style="display:grid; grid-template-columns:1fr 330px; gap:20px;">
+          <!-- map -->
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;">
+              <div style="font-size:15px; font-weight:700; color:#0e2a4a;">Bản đồ tỷ lệ hoàn thành theo địa bàn</div>
+              <div style="display:flex; align-items:center; gap:7px; font-size:11.5px; color:#9aa6b8;">Thấp <span style="width:54px; height:9px; border-radius:5px; background:linear-gradient(90deg,#0e2a4a,#9cc0ff);"></span> Cao</div>
+            </div>
+            <svg viewBox="0 0 520 320" style="width:100%; height:auto; border-radius:12px; background:#f5f8fc;">
+              <path d="M60 50 L160 40 L185 110 L120 150 L55 120 Z" fill="#1c4a86" stroke="#fff" stroke-width="2"/>
+              <text x="98" y="95" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#fff">Liên Chiểu 63%</text>
+              <path d="M160 40 L300 55 L290 120 L185 110 Z" fill="#5b8ee0" stroke="#fff" stroke-width="2"/>
+              <text x="200" y="88" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#fff">Thanh Khê 76%</text>
+              <path d="M120 150 L185 110 L290 120 L270 200 L150 210 Z" fill="#7aa6ec" stroke="#fff" stroke-width="2"/>
+              <text x="172" y="170" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#0e2a4a">Hải Châu 81%</text>
+              <path d="M290 120 L300 55 L420 70 L400 160 L290 120 Z" fill="#4a82dd" stroke="#fff" stroke-width="2"/>
+              <text x="328" y="115" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#fff">Sơn Trà 72%</text>
+              <path d="M270 200 L290 120 L400 160 L380 260 L260 270 Z" fill="#3f78d6" stroke="#fff" stroke-width="2"/>
+              <text x="296" y="215" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#fff">Ngũ Hành Sơn 69%</text>
+              <path d="M150 210 L270 200 L260 270 L130 285 Z" fill="#4079d7" stroke="#fff" stroke-width="2"/>
+              <text x="168" y="250" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#fff">Cẩm Lệ 71%</text>
+              <path d="M55 120 L120 150 L150 210 L130 285 L40 250 Z" fill="#143a6f" stroke="#fff" stroke-width="2"/>
+              <text x="60" y="210" font-family="Be Vietnam Pro" font-size="11.5" font-weight="600" fill="#fff">Hòa Vang 58%</text>
+              <circle cx="470" cy="60" r="14" fill="#9cc0ff" stroke="#fff" stroke-width="2"/>
+              <text x="448" y="92" font-family="Be Vietnam Pro" font-size="11" font-weight="600" fill="#0e2a4a">Hoàng Sa</text>
+            </svg>
+          </div>
+          <!-- right rail -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px; display:flex; flex-direction:column; align-items:center; gap:6px;">
+              <div style="font-size:15px; font-weight:700; color:#0e2a4a; align-self:flex-start;">Tỷ lệ hoàn thành</div>
+              <div style="width:124px; height:124px; border-radius:50%; background:conic-gradient(#2d6fe3 0 68.2%, #e9eef6 68.2% 100%); position:relative; margin:10px 0;">
+                <div style="position:absolute; inset:16px; background:#fff; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px #eef2f8;">
+                  <span style="font-size:28px; font-weight:800; line-height:1; color:#0e2a4a;">68%</span>
+                  <span style="font-size:10px; color:#6b7689; margin-top:2px;">842.310 người</span>
+                </div>
+              </div>
+            </div>
+            <div style="background:linear-gradient(160deg,#0f315c,#0b2545); border-radius:18px; box-shadow:0 14px 30px rgba(11,37,69,.18); padding:20px; color:#fff;">
+              <div style="font-size:14px; font-weight:700; margin-bottom:12px;">AI cảnh báo</div>
+              <div style="display:flex; flex-direction:column; gap:11px;">
+                <sc-for list="{{ aiAlerts }}" as="a" hint-placeholder-count="4">
+                  <div style="display:flex; gap:9px; align-items:flex-start;">
+                    <span style="width:8px; height:8px; flex:0 0 8px; margin-top:5px; border-radius:50%; background:{{ a.color }}; box-shadow:0 0 0 3px {{ a.glow }};"></span>
+                    <div style="font-size:12px; color:#cdddf2; line-height:1.4;"><strong style="color:#fff;">{{ a.type }}:</strong> {{ a.text }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+          <div style="font-size:15px; font-weight:700; color:#0e2a4a; margin-bottom:16px;">Tỷ lệ hoàn thành theo quận/huyện</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:13px 30px;">
+            <sc-for list="{{ byDistrict }}" as="d" hint-placeholder-count="8">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <span style="width:112px; flex:0 0 112px; font-size:12.5px; font-weight:600; color:#16263d;">{{ d.name }}</span>
+                <div style="flex:1; height:9px; background:#eef2f8; border-radius:6px; overflow:hidden;">
+                  <div style="height:100%; width:{{ d.rate }}; background:{{ d.barColor }}; border-radius:6px;"></div>
+                </div>
+                <span style="width:42px; text-align:right; font-weight:700; font-size:12.5px; color:#0e2a4a;">{{ d.rate }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- ========== PAGE 2: THEO XÃ/PHƯỜNG ========== -->
+    <sc-if value="{{ isWard }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="02 Theo xã phường" style="display:flex; flex-direction:column; gap:20px;">
+      <header>
+        <div style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#2d6fe3;">Theo dõi địa bàn</div>
+        <h1 style="font-size:30px; font-weight:800; margin:5px 0 0; line-height:1.1; letter-spacing:-.02em; color:#0e2a4a;">Theo dõi theo xã/phường</h1>
+        <p style="margin:8px 0 0; font-size:13.5px; color:#6b7689;">Tiến độ khám sức khỏe của từng địa bàn · tổng hợp theo CCCD</p>
+      </header>
+
+      <!-- filter bar -->
+      <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:14px; background:#fff; border:1px solid #e6ecf4; border-radius:14px; box-shadow:0 1px 2px rgba(16,40,80,.04);">
+        <div style="display:inline-flex; align-items:center; gap:9px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; flex:1; min-width:240px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa6b8" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4-4"></path></svg>
+          <span style="font-size:13px; color:#9aa6b8;">Tìm theo xã/phường, CCCD hoặc họ tên…</span>
+        </div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">Quận/huyện <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">Trạm y tế <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">Loại khám <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">BHYT <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+      </div>
+
+      <!-- mini kpis -->
+      <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:14px;">
+        <sc-for list="{{ wardKpis }}" as="k" hint-placeholder-count="4">
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:14px; box-shadow:0 1px 2px rgba(16,40,80,.04); padding:15px 18px;">
+            <div style="font-size:11.5px; color:#6b7689;">{{ k.label }}</div>
+            <div style="font-size:25px; font-weight:800; margin-top:4px; color:{{ k.color }};">{{ k.value }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- table -->
+      <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); overflow:hidden;">
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px; min-width:780px;">
+          <thead>
+            <tr style="background:#f7f9fc;">
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Xã/phường</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Quận/huyện</th>
+              <th style="text-align:right; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Tổng dân</th>
+              <th style="text-align:right; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Đã khám</th>
+              <th style="text-align:right; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Chưa khám</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700; width:180px;">Tỷ lệ</th>
+              <th style="text-align:right; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Lỗi CCCD</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ wards }}" as="w" hint-placeholder-count="8">
+              <tr>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; font-weight:700; color:#0e2a4a;">{{ w.name }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ w.district }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; text-align:right; font-variant-numeric:tabular-nums;">{{ w.total }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; text-align:right; font-variant-numeric:tabular-nums;">{{ w.done }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; text-align:right; font-variant-numeric:tabular-nums;">{{ w.undone }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;">
+                  <div style="display:flex; align-items:center; gap:9px;">
+                    <div style="flex:1; height:7px; background:#eef2f8; border-radius:5px; overflow:hidden;"><div style="height:100%; width:{{ w.rate }}; background:{{ w.barColor }}; border-radius:5px;"></div></div>
+                    <span style="font-weight:700; min-width:36px; color:#0e2a4a;">{{ w.rate }}</span>
+                  </div>
+                </td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; text-align:right; color:{{ w.errColor }}; font-weight:700;">{{ w.errors }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;"><span style="font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:20px; background:{{ w.noteBg }}; color:{{ w.noteFg }};">{{ w.note }}</span></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ========== PAGE 3: NGƯỜI CHƯA KHÁM ========== -->
+    <sc-if value="{{ isUnchecked }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="03 Chưa khám" style="display:flex; flex-direction:column; gap:20px;">
+      <header style="display:flex; align-items:flex-end; justify-content:space-between; gap:18px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:280px;">
+          <div style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#2d6fe3;">Vận động người dân</div>
+          <h1 style="font-size:30px; font-weight:800; margin:5px 0 0; line-height:1.1; letter-spacing:-.02em; color:#0e2a4a;">Danh sách người chưa khám</h1>
+          <p style="margin:8px 0 0; font-size:13.5px; color:#6b7689;">Phục vụ gọi điện, nhắn tin và vận động người dân đi khám · 392.257 người</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button style="display:inline-flex; align-items:center; gap:7px; padding:11px 15px; background:#fff; border:1px solid #e2e9f2; border-radius:11px; font:700 13px 'Be Vietnam Pro',sans-serif; color:#16263d; cursor:pointer; box-shadow:0 1px 2px rgba(16,40,80,.05);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"></path></svg>
+            Gọi điện
+          </button>
+          <button style="display:inline-flex; align-items:center; gap:7px; padding:11px 15px; background:#fff; border:1px solid #e2e9f2; border-radius:11px; font:700 13px 'Be Vietnam Pro',sans-serif; color:#16263d; cursor:pointer; box-shadow:0 1px 2px rgba(16,40,80,.05);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Gửi SMS
+          </button>
+          <button style="display:inline-flex; align-items:center; gap:7px; padding:11px 16px; background:linear-gradient(150deg,#3d7bef,#2a5fd0); border:none; border-radius:11px; font:700 13px 'Be Vietnam Pro',sans-serif; color:#fff; cursor:pointer; box-shadow:0 6px 16px rgba(45,111,227,.35);">
+            Phân công vận động
+          </button>
+        </div>
+      </header>
+
+      <!-- filter bar -->
+      <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:14px; background:#fff; border:1px solid #e6ecf4; border-radius:14px; box-shadow:0 1px 2px rgba(16,40,80,.04);">
+        <div style="display:inline-flex; align-items:center; gap:9px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; flex:1; min-width:230px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa6b8" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4-4"></path></svg>
+          <span style="font-size:13px; color:#9aa6b8;">Nhập CCCD hoặc họ tên…</span>
+        </div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">Xã/phường <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">Có SĐT <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+        <div style="display:inline-flex; align-items:center; gap:7px; padding:10px 13px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer;">Trạng thái vận động <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+      </div>
+
+      <!-- table -->
+      <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); overflow:hidden;">
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px; min-width:920px;">
+          <thead>
+            <tr style="background:#f7f9fc;">
+              <th style="padding:13px 16px; width:36px;"><span style="display:inline-block; width:16px; height:16px; border:1.5px solid #c2cee0; border-radius:5px;"></span></th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">CCCD</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Họ tên</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Ngày sinh</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Xã/phường</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">SĐT</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">BHYT</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Trạm y tế</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Vận động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ people }}" as="p" hint-placeholder-count="7">
+              <tr>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;"><span style="display:inline-block; width:16px; height:16px; border:1.5px solid #c2cee0; border-radius:5px;"></span></td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; font-variant-numeric:tabular-nums; color:#16263d;">{{ p.cccd }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; font-weight:700; color:#0e2a4a;">{{ p.name }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ p.dob }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ p.ward }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ p.phone }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;"><span style="font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:20px; background:{{ p.bhytBg }}; color:{{ p.bhytFg }};">{{ p.bhyt }}</span></td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ p.station }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;"><span style="font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:20px; background:{{ p.sb }}; color:{{ p.sf }};">{{ p.status }}</span></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ========== PAGE 4: ĐỐI CHIẾU BHYT ========== -->
+    <sc-if value="{{ isBHYT }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="04 Đối chiếu BHYT" style="display:flex; flex-direction:column; gap:20px;">
+      <header>
+        <div style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#2d6fe3;">Bảo hiểm y tế</div>
+        <h1 style="font-size:30px; font-weight:800; margin:5px 0 0; line-height:1.1; letter-spacing:-.02em; color:#0e2a4a;">Đối chiếu BHYT</h1>
+        <p style="margin:8px 0 0; font-size:13.5px; color:#6b7689;">Đối chiếu thẻ BHYT với danh sách dân cư theo CCCD · phát hiện sai lệch</p>
+      </header>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:13px;">
+        <sc-for list="{{ bhytKpis }}" as="k" hint-placeholder-count="6">
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:14px; box-shadow:0 1px 2px rgba(16,40,80,.04); padding:15px 16px;">
+            <div style="display:flex; align-items:center; gap:7px;"><span style="width:9px; height:9px; border-radius:50%; background:{{ k.dot }};"></span><span style="font-size:11px; color:#6b7689; line-height:1.15;">{{ k.label }}</span></div>
+            <div style="font-size:22px; font-weight:800; margin-top:6px; color:#0e2a4a;">{{ k.value }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="background:#fff; border:1px solid #e6ecf4; border-radius:16px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); overflow:hidden;">
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px; min-width:860px;">
+          <thead>
+            <tr style="background:#f7f9fc;">
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">CCCD</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Họ tên</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Mã thẻ BHYT</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Trạng thái thẻ</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Kết quả đối chiếu</th>
+              <th style="text-align:left; padding:13px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ bhyt }}" as="b" hint-placeholder-count="7">
+              <tr>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; font-variant-numeric:tabular-nums; color:#16263d;">{{ b.cccd }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; font-weight:700; color:#0e2a4a;">{{ b.name }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689; font-variant-numeric:tabular-nums;">{{ b.card }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ b.cardStatus }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;"><span style="font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:20px; background:{{ b.ib }}; color:{{ b.if }};">{{ b.issue }}</span></td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8;"><span style="font-size:12.5px; font-weight:600; color:#2d6fe3; cursor:pointer;">{{ b.action }}</span></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ========== PAGE 5: NHẬP DỮ LIỆU EXCEL ========== -->
+    <sc-if value="{{ isImport }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="05 Nhập dữ liệu" style="display:flex; flex-direction:column; gap:20px;">
+      <header>
+        <div style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#2d6fe3;">Nguồn dữ liệu</div>
+        <h1 style="font-size:30px; font-weight:800; margin:5px 0 0; line-height:1.1; letter-spacing:-.02em; color:#0e2a4a;">Nhập dữ liệu Excel</h1>
+        <p style="margin:8px 0 0; font-size:13.5px; color:#6b7689;">Tải tệp Excel/CSV lên — hệ thống chuẩn hóa, làm sạch và đối chiếu theo CCCD</p>
+      </header>
+
+      <div style="display:grid; grid-template-columns:1.15fr 1fr; gap:20px;">
+        <!-- dropzone -->
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px; display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <div style="font-size:12px; font-weight:700; color:#0e2a4a;">Loại dữ liệu đang tải</div>
+            <div style="display:flex; gap:7px; flex-wrap:wrap;">
+              <sc-for list="{{ importTypes }}" as="t" hint-placeholder-count="4">
+                <button onClick="{{ t.select }}" style="font-size:12px; font-weight:600; padding:6px 12px; border-radius:20px; cursor:pointer; border:1px solid {{ t.border }}; background:{{ t.bg }}; color:{{ t.fg }};">{{ t.name }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <label style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:42px 24px; border:2px dashed #bcd0ef; border-radius:16px; background:linear-gradient(180deg,#f5f9ff,#eef4fd); cursor:pointer; text-align:center;">
+            <input type="file" accept=".xlsx,.xls,.csv" multiple style="display:none;" onChange="{{ onUpload }}" />
+            <span style="width:58px; height:58px; border-radius:16px; background:linear-gradient(150deg,#3d7bef,#2a5fd0); display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(45,111,227,.35);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M12 3v13m-5-5 5 5 5-5"></path></svg>
+            </span>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#0e2a4a;">Kéo thả tệp Excel vào đây</div>
+              <div style="font-size:12.5px; color:#6b7689; margin-top:3px;">hoặc <span style="color:#2d6fe3; font-weight:700; text-decoration:underline;">bấm để chọn tệp</span> từ máy tính</div>
+            </div>
+            <div style="font-size:11px; color:#9aa6b8;">Hỗ trợ .xlsx · .xls · .csv · tối đa 50MB mỗi tệp</div>
+          </label>
+
+          <div style="display:flex; align-items:center; gap:10px; padding:13px 15px; background:#f5f8fc; border:1px solid #e2e9f2; border-radius:12px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4m0-4h.01"></path></svg>
+            <div style="font-size:12px; color:#516074; line-height:1.4;">Tệp cần có cột <strong style="color:#0e2a4a;">CCCD</strong> làm khóa chính. Tải <span style="color:#2d6fe3; font-weight:700; cursor:pointer;">mẫu chuẩn (.xlsx)</span> nếu cần.</div>
+          </div>
+        </div>
+
+        <!-- data sources -->
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+          <div style="font-size:15px; font-weight:700; color:#0e2a4a; margin-bottom:14px;">Nguồn dữ liệu kết nối</div>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <div style="display:flex; align-items:center; gap:13px; padding:13px 14px; border:1px solid #eef2f8; border-radius:13px;">
+              <span style="width:38px; height:38px; flex:0 0 38px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:#eef4fd;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></span>
+              <div style="flex:1; min-width:0;"><div style="font-size:13.5px; font-weight:700; color:#0e2a4a;">Dữ liệu dân cư</div><div style="font-size:11.5px; color:#9aa6b8;">93 xã/phường · khóa CCCD</div></div>
+              <span style="font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; background:#e6f4ec; color:#1f9d6b;">Đồng bộ</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:13px; padding:13px 14px; border:1px solid #eef2f8; border-radius:13px;">
+              <span style="width:38px; height:38px; flex:0 0 38px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:#eef4fd;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2.5"></rect><path d="M2 10h20"></path></svg></span>
+              <div style="flex:1; min-width:0;"><div style="font-size:13.5px; font-weight:700; color:#0e2a4a;">Dữ liệu BHYT</div><div style="font-size:11.5px; color:#9aa6b8;">Mã thẻ · đối tượng · nơi KCB</div></div>
+              <span style="font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; background:#e6f4ec; color:#1f9d6b;">Đồng bộ</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:13px; padding:13px 14px; border:1px solid #eef2f8; border-radius:13px;">
+              <span style="width:38px; height:38px; flex:0 0 38px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:#fff5e6;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d98a1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3 4 7v6c0 4.5 3 7.5 7 8.5 4-1 7-4 7-8.5V7z"></path><path d="M9 12h4M11 10v4"></path></svg></span>
+              <div style="flex:1; min-width:0;"><div style="font-size:13.5px; font-weight:700; color:#0e2a4a;">Dữ liệu khám sức khỏe</div><div style="font-size:11.5px; color:#9aa6b8;">Ngày khám · đơn vị · kết quả</div></div>
+              <span style="font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; background:#fff2da; color:#b5781a;">Đang nhập</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:13px; padding:13px 14px; border:1px solid #eef2f8; border-radius:13px;">
+              <span style="width:38px; height:38px; flex:0 0 38px; border-radius:11px; display:flex; align-items:center; justify-content:center; background:#eef4fd;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"></path></svg></span>
+              <div style="flex:1; min-width:0;"><div style="font-size:13.5px; font-weight:700; color:#0e2a4a;">Trạm y tế / cơ sở khám</div><div style="font-size:11.5px; color:#9aa6b8;">Địa bàn · số đã/chưa khám</div></div>
+              <span style="font-size:11px; font-weight:700; padding:4px 11px; border-radius:20px; background:#e6f4ec; color:#1f9d6b;">Đồng bộ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- import history / queue -->
+      <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); overflow:hidden;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px 14px;">
+          <div style="font-size:15px; font-weight:700; color:#0e2a4a;">Tệp đã tải lên gần đây</div>
+          <span style="font-size:12px; color:#9aa6b8;">{{ uploadCount }} tệp</span>
+        </div>
+        <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px; min-width:760px;">
+          <thead>
+            <tr style="background:#f7f9fc;">
+              <th style="text-align:left; padding:12px 22px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Tên tệp</th>
+              <th style="text-align:left; padding:12px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Loại dữ liệu</th>
+              <th style="text-align:right; padding:12px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Bản ghi</th>
+              <th style="text-align:right; padding:12px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Dung lượng</th>
+              <th style="text-align:left; padding:12px 16px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Thời gian</th>
+              <th style="text-align:left; padding:12px 22px; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#8794a8; font-weight:700;">Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ uploads }}" as="u" hint-placeholder-count="3">
+              <tr>
+                <td style="padding:14px 22px; border-top:1px solid #eef2f8;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="width:30px; height:30px; flex:0 0 30px; border-radius:8px; background:#e6f4ec; display:flex; align-items:center; justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1f9d6b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span>
+                    <span style="font-weight:600; color:#0e2a4a;">{{ u.name }}</span>
+                  </div>
+                </td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ u.type }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; text-align:right; font-variant-numeric:tabular-nums; color:#16263d;">{{ u.records }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; text-align:right; color:#6b7689;">{{ u.size }}</td>
+                <td style="padding:14px 16px; border-top:1px solid #eef2f8; color:#6b7689;">{{ u.time }}</td>
+                <td style="padding:14px 22px; border-top:1px solid #eef2f8;"><span style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; padding:4px 11px; border-radius:20px; background:{{ u.statusBg }}; color:{{ u.statusFg }};"><span style="width:7px; height:7px; border-radius:50%; background:{{ u.statusFg }};"></span>{{ u.status }}</span></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ========== PAGE 6: BÁO CÁO & XUẤT ========== -->
+    <sc-if value="{{ isReport }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="06 Báo cáo" style="display:flex; flex-direction:column; gap:20px;">
+      <header>
+        <div style="font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#2d6fe3;">Báo cáo</div>
+        <h1 style="font-size:30px; font-weight:800; margin:5px 0 0; line-height:1.1; letter-spacing:-.02em; color:#0e2a4a;">Báo cáo & xuất Excel</h1>
+        <p style="margin:8px 0 0; font-size:13.5px; color:#6b7689;">Tạo báo cáo tùy chỉnh hoặc xuất nhanh để gửi Sở Y tế</p>
+      </header>
+
+      <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:20px;">
+        <!-- build report -->
+        <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:24px;">
+          <div style="font-size:16px; font-weight:700; color:#0e2a4a; margin-bottom:18px;">Tạo báo cáo tùy chỉnh</div>
+          <div style="display:flex; flex-direction:column; gap:18px;">
+            <div>
+              <div style="font-size:12px; font-weight:700; color:#516074; margin-bottom:8px;">Loại báo cáo</div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                <span style="font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:20px; background:linear-gradient(150deg,#3d7bef,#2a5fd0); color:#fff;">Đã khám</span>
+                <span style="font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:20px; border:1px solid #e2e9f2; color:#516074;">Chưa khám</span>
+                <span style="font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:20px; border:1px solid #e2e9f2; color:#516074;">Lỗi CCCD</span>
+                <span style="font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:20px; border:1px solid #e2e9f2; color:#516074;">Tổng hợp</span>
+              </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+              <div>
+                <div style="font-size:12px; font-weight:700; color:#516074; margin-bottom:8px;">Phạm vi</div>
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 13px; border:1px solid #e2e9f2; border-radius:11px; font-size:13px; background:#f5f8fc;">Toàn thành phố <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><path d="m6 9 6 6 6-6"></path></svg></div>
+              </div>
+              <div>
+                <div style="font-size:12px; font-weight:700; color:#516074; margin-bottom:8px;">Khoảng thời gian</div>
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 13px; border:1px solid #e2e9f2; border-radius:11px; font-size:13px; background:#f5f8fc;">01/06 – 17/06 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7689" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2.5"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:12px; font-weight:700; color:#516074; margin-bottom:8px;">Định dạng xuất</div>
+              <div style="display:flex; gap:9px;">
+                <span style="display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; padding:9px 16px; border-radius:11px; background:#e6f4ec; color:#1f9d6b; border:1px solid #c8e9d6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg>Excel</span>
+                <span style="font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:11px; border:1px solid #e2e9f2; color:#516074;">PDF</span>
+                <span style="font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:11px; border:1px solid #e2e9f2; color:#516074;">API → SYT</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:11px; margin-top:4px;">
+              <button style="flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px; border:none; border-radius:12px; background:linear-gradient(150deg,#3d7bef,#2a5fd0); color:#fff; font:800 14px 'Be Vietnam Pro',sans-serif; cursor:pointer; box-shadow:0 8px 20px rgba(45,111,227,.35);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M7 10l5 5 5-5M12 15V3"></path></svg>Xuất báo cáo</button>
+              <button style="padding:14px 20px; border:1px solid #e2e9f2; border-radius:12px; background:#fff; color:#16263d; font:700 14px 'Be Vietnam Pro',sans-serif; cursor:pointer;">Gửi SYT</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- quick exports -->
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04),0 10px 26px rgba(16,40,80,.04); padding:22px;">
+            <div style="font-size:15px; font-weight:700; color:#0e2a4a; margin-bottom:14px;">Xuất nhanh</div>
+            <div style="display:flex; flex-direction:column; gap:9px;">
+              <sc-for list="{{ reports }}" as="r" hint-placeholder-count="6">
+                <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid #eef2f8; border-radius:12px; cursor:pointer;">
+                  <span style="width:32px; height:32px; flex:0 0 32px; border-radius:9px; background:#eef4fd; display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2d6fe3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span>
+                  <span style="font-size:13px; font-weight:600; flex:1; color:#16263d;">{{ r.name }}</span>
+                  <span style="font-size:11px; font-weight:700; color:#6b7689; padding:3px 9px; border:1px solid #e2e9f2; border-radius:14px;">{{ r.fmt }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#fff; border:1px solid #e6ecf4; border-radius:18px; box-shadow:0 1px 2px rgba(16,40,80,.04); padding:22px;">
+            <div style="font-size:15px; font-weight:700; color:#0e2a4a; margin-bottom:12px;">Xuất gần đây</div>
+            <sc-for list="{{ recentExports }}" as="e" hint-placeholder-count="2">
+              <div style="display:flex; align-items:center; gap:11px; padding:11px 0; border-bottom:1px solid #eef2f8;">
+                <span style="width:28px; height:28px; flex:0 0 28px; border-radius:8px; background:#e6f4ec; display:flex; align-items:center; justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1f9d6b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                <div style="flex:1;"><div style="font-size:13px; font-weight:600; color:#16263d;">{{ e.name }}</div><div style="font-size:11px; color:#9aa6b8;">{{ e.by }} · {{ e.time }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+
+  <!-- ================= AI DRAWER ================= -->
+  <sc-if value="{{ aiOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed; inset:0; background:rgba(11,37,69,.4); z-index:40;" onClick="{{ closeAi }}"></div>
+  <aside style="position:fixed; top:0; right:0; width:430px; max-width:92vw; height:100vh; background:#fff; z-index:50; display:flex; flex-direction:column; box-shadow:-20px 0 60px rgba(11,37,69,.18);">
+    <div style="display:flex; align-items:center; gap:12px; padding:20px 22px; border-bottom:1px solid #eef2f8; background:linear-gradient(120deg,#0f315c,#0b2545); color:#fff;">
+      <div style="width:40px; height:40px; border-radius:12px; background:rgba(255,255,255,.12); display:flex; align-items:center; justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9cc0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M5 12H2m20 0h-3M6.3 6.3 4 4m16 0-2.3 2.3M6.3 17.7 4 20m16 0-2.3-2.3"></path><circle cx="12" cy="12" r="3.5"></circle></svg>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:16px; font-weight:700; line-height:1;">Trợ lý báo cáo AI</div>
+        <div style="font-size:11px; color:#8fb0e0; margin-top:3px;">Hỏi bằng ngôn ngữ tự nhiên</div>
+      </div>
+      <button onClick="{{ closeAi }}" style="width:34px; height:34px; border:none; border-radius:10px; background:rgba(255,255,255,.12); color:#fff; cursor:pointer; font-size:16px; line-height:1;">✕</button>
+    </div>
+
+    <div style="flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:13px; background:#f7f9fc;">
+      <sc-for list="{{ aiThread }}" as="m" hint-placeholder-count="2">
+        <div style="align-self:{{ m.align }}; max-width:84%; padding:12px 15px; border-radius:15px; font-size:13px; line-height:1.5; background:{{ m.bg }}; color:{{ m.fg }}; box-shadow:0 1px 2px rgba(16,40,80,.06); border:{{ m.border }};">{{ m.text }}</div>
+      </sc-for>
+    </div>
+
+    <div style="padding:16px 22px 20px; border-top:1px solid #eef2f8;">
+      <div style="font-size:10.5px; font-weight:700; letter-spacing:.08em; color:#9aa6b8; margin-bottom:9px;">GỢI Ý CÂU HỎI</div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+        <sc-for list="{{ aiSuggestions }}" as="s" hint-placeholder-count="4">
+          <span style="font-size:12px; font-weight:600; padding:7px 12px; border:1px solid #d6e3f7; border-radius:18px; color:#2d6fe3; cursor:pointer; background:#f5f9ff;">{{ s }}</span>
+        </sc-for>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; padding:11px 14px; border:1px solid #e2e9f2; border-radius:13px; background:#f5f8fc;">
+        <span style="flex:1; font-size:13px; color:#9aa6b8;">Nhập câu hỏi của bạn…</span>
+        <button style="width:36px; height:36px; border:none; border-radius:10px; background:linear-gradient(150deg,#3d7bef,#2a5fd0); cursor:pointer; display:flex; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 14 0M13 6l6 6-6 6"></path></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1380,&quot;height&quot;:900}}">
+class Component extends DCLogic {
+  state = {
+    page: 'overview',
+    layoutB: false,
+    aiOpen: false,
+    importType: 'Dân cư',
+    uploads: [
+      { name: 'DanCu_HaiChau_T6.xlsx', type: 'Dân cư', records: '184.205', size: '12,4 MB', time: 'Hôm nay 08:12', statusBg: '#e6f4ec', statusFg: '#1f9d6b', status: 'Đã xử lý' },
+      { name: 'BHYT_toanthanhpho.xlsx', type: 'BHYT', records: '1.108.900', size: '48,1 MB', time: 'Hôm qua 16:40', statusBg: '#e6f4ec', statusFg: '#1f9d6b', status: 'Đã xử lý' },
+      { name: 'KSK_LienChieu_15-06.csv', type: 'Khám sức khỏe', records: '36.842', size: '4,2 MB', time: '15/06 · 09:55', statusBg: '#fff2da', statusFg: '#b5781a', status: 'Đang đối chiếu' },
+    ],
+  };
+
+  fmtSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1).replace('.', ',') + ' KB';
+    return (bytes / 1048576).toFixed(1).replace('.', ',') + ' MB';
+  }
+
+  onUpload = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    const type = this.state.importType;
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const added = files.map((f) => ({
+      name: f.name, type,
+      records: '— đang đọc —',
+      size: this.fmtSize(f.size),
+      time: 'Hôm nay ' + hh + ':' + mm,
+      statusBg: '#e8f0fe', statusFg: '#2160d6', status: 'Vừa tải lên',
+    }));
+    this.setState((s) => ({ uploads: [...added, ...s.uploads] }));
+    e.target.value = '';
+  };
+
+  renderVals() {
+    const p = this.state.page;
+    const act = (x) => p === x;
+    const NAV_ON = '#2d6fe3', NAV_OFF = 'rgba(255,255,255,.72)';
+    const navBg = (x) => (act(x) ? 'linear-gradient(150deg,#3d7bef,#2a5fd0)' : 'transparent');
+    const navFg = (x) => (act(x) ? '#ffffff' : NAV_OFF);
+
+    const types = ['Dân cư', 'BHYT', 'Khám sức khỏe', 'Trạm y tế'];
+    const importTypes = types.map((t) => {
+      const on = this.state.importType === t;
+      return {
+        name: t,
+        select: () => this.setState({ importType: t }),
+        bg: on ? '#2d6fe3' : '#fff',
+        fg: on ? '#fff' : '#516074',
+        border: on ? '#2d6fe3' : '#e2e9f2',
+      };
+    });
+
+    return {
+      isOverview: act('overview'), isWard: act('ward'), isUnchecked: act('unchecked'),
+      isBHYT: act('bhyt'), isImport: act('import'), isReport: act('report'),
+      layoutA: !this.state.layoutB, layoutB: this.state.layoutB, aiOpen: this.state.aiOpen,
+
+      goOverview: () => this.setState({ page: 'overview' }),
+      goWard: () => this.setState({ page: 'ward' }),
+      goUnchecked: () => this.setState({ page: 'unchecked' }),
+      goBHYT: () => this.setState({ page: 'bhyt' }),
+      goImport: () => this.setState({ page: 'import' }),
+      goReport: () => this.setState({ page: 'report' }),
+      setA: () => this.setState({ layoutB: false }),
+      setB: () => this.setState({ layoutB: true }),
+      toggleAi: () => this.setState((s) => ({ aiOpen: !s.aiOpen })),
+      closeAi: () => this.setState({ aiOpen: false }),
+
+      navOverviewBg: navBg('overview'), navOverviewFg: navFg('overview'),
+      navWardBg: navBg('ward'), navWardFg: navFg('ward'),
+      navUncheckedBg: navBg('unchecked'), navUncheckedFg: navFg('unchecked'),
+      navBHYTBg: navBg('bhyt'), navBHYTFg: navFg('bhyt'),
+      navImportBg: navBg('import'), navImportFg: navFg('import'),
+      navReportBg: navBg('report'), navReportFg: navFg('report'),
+
+      segABg: !this.state.layoutB ? 'linear-gradient(150deg,#3d7bef,#2a5fd0)' : '#fff',
+      segAFg: !this.state.layoutB ? '#fff' : '#516074',
+      segBBg: this.state.layoutB ? 'linear-gradient(150deg,#3d7bef,#2a5fd0)' : '#fff',
+      segBFg: this.state.layoutB ? '#fff' : '#516074',
+
+      byDay: [
+        { label: '11/6', v: '10.4k', h: '102px' }, { label: '12/6', v: '12.0k', h: '120px' },
+        { label: '13/6', v: '6.6k', h: '66px' }, { label: '14/6', v: '5.2k', h: '52px' },
+        { label: '15/6', v: '11.2k', h: '112px' }, { label: '16/6', v: '9.4k', h: '94px' },
+        { label: '17/6', v: '8.1k', h: '81px' },
+      ],
+
+      byDistrict: [
+        { name: 'Hoàng Sa', rate: '88%', barColor: '#1f9d6b' },
+        { name: 'Hải Châu', rate: '81%', barColor: '#1f9d6b' },
+        { name: 'Thanh Khê', rate: '76%', barColor: '#2d6fe3' },
+        { name: 'Sơn Trà', rate: '72%', barColor: '#2d6fe3' },
+        { name: 'Cẩm Lệ', rate: '71%', barColor: '#2d6fe3' },
+        { name: 'Ngũ Hành Sơn', rate: '69%', barColor: '#d98a1f' },
+        { name: 'Liên Chiểu', rate: '63%', barColor: '#d98a1f' },
+        { name: 'Hòa Vang', rate: '58%', barColor: '#c9453f' },
+      ],
+
+      aiAlerts: [
+        { type: 'Phát hiện trùng CCCD', text: '1.203 CCCD xuất hiện nhiều lần — tập trung tại Liên Chiểu, Hòa Vang.', color: '#ff6b5e', glow: 'rgba(255,107,94,.2)' },
+        { type: 'Sai địa bàn', text: '318 người đã khám nhưng lệch xã/phường so với hộ khẩu.', color: '#ffc24b', glow: 'rgba(255,194,75,.2)' },
+        { type: 'Thiếu trong dân cư', text: '742 người có BHYT nhưng chưa có trong danh sách dân cư.', color: '#ffc24b', glow: 'rgba(255,194,75,.2)' },
+        { type: 'Dự báo tiến độ', text: '5 phường nguy cơ không đạt mục tiêu trước 30/06 theo tốc độ hiện tại.', color: '#7fb0ff', glow: 'rgba(127,176,255,.25)' },
+      ],
+
+      wardKpis: [
+        { label: 'Tổng xã/phường', value: '93', color: '#0e2a4a' },
+        { label: 'Đạt ≥ 80%', value: '21', color: '#1f9d6b' },
+        { label: 'Dưới 50%', value: '12', color: '#c9453f' },
+        { label: 'Đang xử lý lỗi', value: '7', color: '#d98a1f' },
+      ],
+
+      wards: [
+        { name: 'P. Hải Châu I', district: 'Hải Châu', total: '18.420', done: '15.910', undone: '2.510', rate: '86%', barColor: '#1f9d6b', errors: '12', errColor: '#6b7689', note: 'Đạt tiến độ', noteBg: '#e6f4ec', noteFg: '#1f9d6b' },
+        { name: 'P. Thạch Thang', district: 'Hải Châu', total: '14.205', done: '11.640', undone: '2.565', rate: '82%', barColor: '#1f9d6b', errors: '8', errColor: '#6b7689', note: 'Đạt tiến độ', noteBg: '#e6f4ec', noteFg: '#1f9d6b' },
+        { name: 'P. Hòa Khánh Nam', district: 'Liên Chiểu', total: '31.880', done: '18.820', undone: '13.060', rate: '59%', barColor: '#d98a1f', errors: '34', errColor: '#c9453f', note: 'Cần vận động', noteBg: '#fdeceb', noteFg: '#c9453f' },
+        { name: 'P. Hòa Minh', district: 'Liên Chiểu', total: '29.140', done: '18.060', undone: '11.080', rate: '62%', barColor: '#d98a1f', errors: '27', errColor: '#c9453f', note: 'Chậm tiến độ', noteBg: '#fff2da', noteFg: '#b5781a' },
+        { name: 'P. An Hải Bắc', district: 'Sơn Trà', total: '22.310', done: '16.060', undone: '6.250', rate: '72%', barColor: '#2d6fe3', errors: '15', errColor: '#6b7689', note: 'Theo dõi', noteBg: '#eef4fd', noteFg: '#2d6fe3' },
+        { name: 'P. Khuê Trung', district: 'Cẩm Lệ', total: '19.760', done: '12.640', undone: '7.120', rate: '64%', barColor: '#d98a1f', errors: '19', errColor: '#d98a1f', note: 'Theo dõi', noteBg: '#fff2da', noteFg: '#b5781a' },
+        { name: 'X. Hòa Tiến', district: 'Hòa Vang', total: '13.540', done: '7.850', undone: '5.690', rate: '58%', barColor: '#c9453f', errors: '22', errColor: '#c9453f', note: 'Cần vận động', noteBg: '#fdeceb', noteFg: '#c9453f' },
+        { name: 'P. Mỹ An', district: 'Ngũ Hành Sơn', total: '16.980', done: '12.190', undone: '4.790', rate: '72%', barColor: '#2d6fe3', errors: '9', errColor: '#6b7689', note: 'Theo dõi', noteBg: '#eef4fd', noteFg: '#2d6fe3' },
+      ],
+
+      people: [
+        { cccd: '048203011***', name: 'Nguyễn Văn Hùng', dob: '12/04/1978', ward: 'P. Hòa Khánh Nam', phone: '0905 412 ***', bhyt: 'Có', bhytBg: '#e6f4ec', bhytFg: '#1f9d6b', station: 'TYT Hòa Khánh Nam', status: 'Chưa gọi', sb: '#eef1f6', sf: '#6b7689' },
+        { cccd: '048189004***', name: 'Trần Thị Lệ', dob: '03/09/1990', ward: 'P. Hòa Minh', phone: '0912 778 ***', bhyt: 'Có', bhytBg: '#e6f4ec', bhytFg: '#1f9d6b', station: 'TYT Hòa Minh', status: 'Đã gọi', sb: '#e6f4ec', sf: '#1f9d6b' },
+        { cccd: '048255067***', name: 'Lê Quang Đạo', dob: '21/11/1965', ward: 'X. Hòa Tiến', phone: '—', bhyt: 'Không', bhytBg: '#fdeceb', bhytFg: '#c9453f', station: 'TYT Hòa Tiến', status: 'Chưa gọi', sb: '#eef1f6', sf: '#6b7689' },
+        { cccd: '048201233***', name: 'Phạm Thị Hoa', dob: '17/06/1982', ward: 'P. Khuê Trung', phone: '0938 110 ***', bhyt: 'Hết hạn', bhytBg: '#fff2da', bhytFg: '#b5781a', station: 'TYT Khuê Trung', status: 'Đã hẹn lịch', sb: '#eef4fd', sf: '#2d6fe3' },
+        { cccd: '048177890***', name: 'Võ Minh Tuấn', dob: '29/02/1972', ward: 'P. An Hải Bắc', phone: '0905 667 ***', bhyt: 'Có', bhytBg: '#e6f4ec', bhytFg: '#1f9d6b', station: 'TYT An Hải Bắc', status: 'Từ chối', sb: '#fdeceb', sf: '#c9453f' },
+        { cccd: '048299145***', name: 'Đặng Thị Thu', dob: '08/12/1995', ward: 'P. Hòa Khánh Nam', phone: '0987 321 ***', bhyt: 'Có', bhytBg: '#e6f4ec', bhytFg: '#1f9d6b', station: 'TYT Hòa Khánh Nam', status: 'Chưa gọi', sb: '#eef1f6', sf: '#6b7689' },
+        { cccd: '048210556***', name: 'Hoàng Văn Nam', dob: '14/07/1958', ward: 'P. Mỹ An', phone: '0913 045 ***', bhyt: 'Có', bhytBg: '#e6f4ec', bhytFg: '#1f9d6b', station: 'TYT Mỹ An', status: 'Đã gọi', sb: '#e6f4ec', sf: '#1f9d6b' },
+      ],
+
+      bhytKpis: [
+        { label: 'Có BHYT', value: '1.108.900', dot: '#1f9d6b' },
+        { label: 'Không có BHYT', value: '125.667', dot: '#c9453f' },
+        { label: 'Sai mã thẻ', value: '2.318', dot: '#d98a1f' },
+        { label: 'BHYT hết hạn', value: '8.904', dot: '#d98a1f' },
+        { label: 'Không khớp CCCD', value: '1.502', dot: '#c9453f' },
+        { label: 'Không khớp họ tên', value: '987', dot: '#d98a1f' },
+      ],
+
+      bhyt: [
+        { cccd: '048201233***', name: 'Trần Thị Mai', card: 'DN4 79 1234567', cardStatus: 'Còn hạn', issue: 'Khớp', ib: '#e6f4ec', if: '#1f9d6b', action: 'Xem chi tiết' },
+        { cccd: '048189004***', name: 'Lê Văn Sơn', card: 'GD4 48 9981233', cardStatus: 'Còn hạn', issue: 'Sai mã thẻ', ib: '#fdeceb', if: '#c9453f', action: 'Yêu cầu xác minh' },
+        { cccd: '048255067***', name: 'Phan Thị Yến', card: 'HT2 79 4412900', cardStatus: 'Hết hạn 03/2026', issue: 'Thẻ hết hạn', ib: '#fff2da', if: '#b5781a', action: 'Thông báo gia hạn' },
+        { cccd: '048177890***', name: 'Nguyễn Đức Anh', card: 'TE1 79 6650021', cardStatus: 'Còn hạn', issue: 'Không khớp CCCD', ib: '#fdeceb', if: '#c9453f', action: 'Yêu cầu xác minh' },
+        { cccd: '048299145***', name: 'Bùi Thị Hạnh', card: 'BT2 79 1180345', cardStatus: 'Còn hạn', issue: 'Không khớp họ tên', ib: '#fff2da', if: '#b5781a', action: 'Đối chiếu lại' },
+        { cccd: '048210556***', name: 'Đỗ Văn Long', card: '—', cardStatus: 'Không tìm thấy', issue: 'Không tìm thấy', ib: '#fdeceb', if: '#c9453f', action: 'Tra cứu BHXH' },
+        { cccd: '048266712***', name: 'Cao Thị Ngọc', card: 'DN4 79 2245788', cardStatus: 'Còn hạn', issue: 'Khớp', ib: '#e6f4ec', if: '#1f9d6b', action: 'Xem chi tiết' },
+      ],
+
+      importTypes,
+      uploads: this.state.uploads,
+      uploadCount: this.state.uploads.length,
+
+      reports: [
+        { name: 'Danh sách đã khám', fmt: 'Excel' },
+        { name: 'Danh sách chưa khám', fmt: 'Excel' },
+        { name: 'Danh sách lỗi CCCD', fmt: 'Excel' },
+        { name: 'Báo cáo theo xã/phường', fmt: 'Excel · PDF' },
+        { name: 'Báo cáo theo trạm y tế', fmt: 'Excel' },
+        { name: 'Báo cáo tổng hợp gửi SYT', fmt: 'PDF' },
+      ],
+
+      recentExports: [
+        { name: 'BC_tonghop_16-06-2026.xlsx', by: 'Phòng KH–TH', time: 'Hôm qua 17:20' },
+        { name: 'Chuakham_HaiChau_15-06.xlsx', by: 'TTYT Hải Châu', time: '15/06 · 09:10' },
+      ],
+
+      aiThread: [
+        { text: 'Phường nào còn nhiều người chưa khám nhất?', align: 'flex-end', bg: 'linear-gradient(150deg,#3d7bef,#2a5fd0)', fg: '#fff', border: 'none' },
+        { text: 'Top 3 phường có số người chưa khám cao nhất: Hòa Khánh Nam (13.060), Hòa Minh (11.080), Khuê Trung (7.120). Tổng ~31.260 người. Bạn có muốn xuất danh sách để vận động không?', align: 'flex-start', bg: '#fff', fg: '#16263d', border: '1px solid #eef2f8' },
+      ],
+
+      aiSuggestions: [
+        'Hôm nay toàn thành phố khám được bao nhiêu người?',
+        'Xuất danh sách người chưa khám ở Hải Châu',
+        'So sánh tiến độ tuần này với tuần trước',
+        'Trạm y tế nào có tỷ lệ khám thấp nhất?',
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
